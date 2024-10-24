@@ -108,7 +108,7 @@ def main():
     
     # Save the model and scaler in Results directory
     print("\nSaving model and scaler...")
-    joblib.dump(model, 'Results/housing_model.joblib')
+    joblib.dump(model, 'Model/housing_model.joblib')
     joblib.dump(scaler, 'Results/scaler.joblib')
     
     print("\nTraining complete! Files saved in Results directory:")
