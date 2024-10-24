@@ -44,6 +44,8 @@ jobs:
       
     - name: Create model report
       if: success()
+      env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: make eval
       
     - name: Update metrics branch
