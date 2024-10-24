@@ -1,7 +1,6 @@
 install:
 	pip install --upgrade pip &&\
-		pip install -r requirements.txt &&\
-		npm install -g @dvcorg/cml
+		pip install -r requirements.txt
 
 format:	
 	black *.py 
