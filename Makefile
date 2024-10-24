@@ -5,6 +5,12 @@ install:
 format:	
 	black *.py 
 
+lint:
+	pylint --disable=R,C *.py
+
+test:
+	python -m pytest -vv test_model.py
+
 train:
 	python train.py
 
@@ -12,8 +18,8 @@ eval:
 	echo "## Model Metrics" > report.md
 	cat ./Results/metrics.txt >> report.md
 	
-	echo '\n## Confusion Matrix Plot' >> report.md
-	echo '![Confusion Matrix](./Results/model_results.png)' >> report.md
+	echo "\n## Feature Importance Plot" >> report.md
+	echo "![Feature Importance](./Results/feature_importance.png)" >> report.md
 	
 	cml comment create report.md
 		
@@ -32,8 +38,11 @@ hf-login:
 push-hub: 
 	huggingface-cli upload nglinhbao/Housing-Pricing ./App --repo-type=space --commit-message="Sync App files"
 	huggingface-cli upload nglinhbao/Housing-Pricing ./Model /Model --repo-type=space --commit-message="Sync Model"
-	huggingface-cli upload nglinhbao/Housing-Pricing ./Results /Metrics --repo-type=space --commit-message="Sync Model"
+	huggingface-cli upload nglinhbao/Housing-Pricing ./Results /Metrics --repo-type=space --commit-message="Sync Results"
 
 deploy: hf-login push-hub
 
-all: install format train eval update-branch deploy
+validate:
+	python model_validation.py
+
+all: install lint test train validate eval

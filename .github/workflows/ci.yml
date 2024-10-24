@@ -1,26 +1,52 @@
+# .github/workflows/ci.yml
 name: Continuous Integration
+
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-  
-permissions: write-all
+    branches: [ main ]
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: iterative/setup-cml@v2
-      - name: Install Packages
-        run: make install
-      - name: Format
-        run: make format
-      - name: Train
-        run: make train
-      - name: Evaluation
-        env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: make eval
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for model comparison
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    
+    - name: Install dependencies
+      run: |
+        make install
         
+    - name: Run format check
+      run: make format
+        
+    - name: Run model validation
+      run: |
+        # Get previous model metrics if they exist
+        if [ -f "Results/metrics.txt" ]; then
+          cp Results/metrics.txt Results/previous_metrics.txt
+        fi
+        
+        # Train and evaluate new model
+        make train
+        
+        # Compare model performance
+        python model_validation.py
+      
+    - name: Create model report
+      if: success()
+      run: make eval
+      
+    - name: Update metrics branch
+      if: success()
+      env:
+        USER_NAME: ${{ github.actor }}
+        USER_EMAIL: ${{ github.actor }}@users.noreply.github.com
+      run: make update-branch
