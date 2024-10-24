@@ -41,6 +41,13 @@ jobs:
         
         # Compare model performance
         python model_validation.py
+
+        # If there are changes to commit
+        if [[ -n $(git status -s) ]]; then
+          git add Results/metrics.txt Results/previous_metrics.txt
+          git commit -m "Update model metrics [skip ci]"
+          git push origin HEAD:${GITHUB_REF}
+        fi
       
     - name: Create model report
       if: success()
