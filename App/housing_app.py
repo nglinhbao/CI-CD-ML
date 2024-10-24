@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.datasets import fetch_california_housing
 
 # Load the saved model and scaler
-model = joblib.load('./Results/housing_model.joblib')
+model = joblib.load('./Model/housing_model.joblib')
 scaler = joblib.load('./Results/scaler.joblib')
 
 # Get feature names from the dataset
