@@ -1,4 +1,5 @@
 # ML Model Training & Deployment Pipeline
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-md-dark.svg)](https://huggingface.co/spaces/nglinhbao/Housing-Pricing)
 
 A robust machine learning pipeline for training, validating, and deploying a housing price prediction model with automated performance tracking and continuous deployment.
 
