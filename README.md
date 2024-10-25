@@ -27,9 +27,11 @@ A robust machine learning pipeline for training, validating, and deploying a hou
 └── 📜 requirements.txt    # Python dependencies
 ```
 
-## 🚀 Features
+## 📋 CI/CD Pipeline Details
 
 ![Pipeline](./images/pipeline.drawio.png)
+
+### 🚀 Features
 
 - **Automated Model Training**: Standardized training pipeline using scikit-learn
 - **Performance Tracking**: Automatic comparison with previous model versions
@@ -42,6 +44,32 @@ A robust machine learning pipeline for training, validating, and deploying a hou
   - Automatic deployment to Hugging Face
   - Only deploys when performance improves
   - Metrics version control
+
+### Continuous Integration (`ci.yml`)
+```yaml
+Triggers:
+- Push to main
+- Pull requests
+
+Steps:
+1. Code formatting
+2. Unit tests
+3. Model training
+4. Performance validation
+5. Metrics update
+```
+
+### Continuous Deployment (`cd.yml`)
+```yaml
+Triggers:
+- Successful CI completion
+- Manual workflow dispatch
+
+Steps:
+1. Environment setup
+2. Hugging Face authentication
+3. Model deployment
+```
 
 ## 📊 Model Details
 
@@ -164,31 +192,3 @@ make eval
 - `USER_NAME`: Git username for commits
 - `USER_EMAIL`: Git email for commits
 - `HF`: Hugging Face API token
-
-## 📋 CI/CD Pipeline Details
-
-### Continuous Integration (`ci.yml`)
-```yaml
-Triggers:
-- Push to main
-- Pull requests
-
-Steps:
-1. Code formatting
-2. Unit tests
-3. Model training
-4. Performance validation
-5. Metrics update
-```
-
-### Continuous Deployment (`cd.yml`)
-```yaml
-Triggers:
-- Successful CI completion
-- Manual workflow dispatch
-
-Steps:
-1. Environment setup
-2. Hugging Face authentication
-3. Model deployment
-```
