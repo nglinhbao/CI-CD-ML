@@ -2,6 +2,11 @@ import gradio as gr
 import joblib
 import numpy as np
 from sklearn.datasets import fetch_california_housing
+import warnings
+from sklearn.exceptions import InconsistentVersionWarning
+
+# Suppress the version warning
+warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
 # Load the saved model and scaler
 model = joblib.load('./Model/housing_model.joblib')
@@ -11,22 +16,7 @@ scaler = joblib.load('./Results/scaler.joblib')
 feature_names = fetch_california_housing().feature_names
 
 def predict_price(*features):
-    """Predict house price based on input features.
-    
-    Args:
-        *features: List of features in the order:
-            - MedInc: Median income in block group
-            - HouseAge: Median house age in block group
-            - AveRooms: Average number of rooms
-            - AveBedrms: Average number of bedrooms
-            - Population: Block group population
-            - AveOccup: Average house occupancy
-            - Latitude: House block latitude
-            - Longitude: House block longitude
-    
-    Returns:
-        str: Predicted house price in $100,000s
-    """
+    """Predict house price based on input features."""
     # Convert features to numpy array and reshape
     features_array = np.array(features).reshape(1, -1)
     
@@ -63,29 +53,39 @@ examples = [
     [5.6431, 52.0, 5.817352, 1.073059, 558.0, 2.547945, 37.85, -122.25]
 ]
 
-title = "California House Price Prediction"
-description = "Enter house features to predict its price. The model was trained on the California Housing dataset."
+# Create Markdown-formatted description text
+description = """
+## California House Price Prediction
+
+Enter house features to predict its price. The model was trained on the California Housing dataset.
+"""
+
+# Create Markdown-formatted article text
 article = """
-This app predicts house prices in California based on various features:
-- Median Income: Median income in the block group (in tens of thousands of dollars)
-- House Age: Median age of houses in the block group
-- Average Rooms: Average number of rooms per household
-- Average Bedrooms: Average number of bedrooms per household
-- Population: Total population in the block group
-- Average Occupancy: Average number of household members
-- Latitude and Longitude: Geographic coordinates
+### Model Features:
+
+- **Median Income**: Median income in the block group (in tens of thousands of dollars)
+- **House Age**: Median age of houses in the block group
+- **Average Rooms**: Average number of rooms per household
+- **Average Bedrooms**: Average number of bedrooms per household
+- **Population**: Total population in the block group
+- **Average Occupancy**: Average number of household members
+- **Latitude and Longitude**: Geographic coordinates
 
 The predictions are based on a Random Forest model trained on the California Housing dataset.
 """
 
 # Create and launch the interface
-gr.Interface(
+interface = gr.Interface(
     fn=predict_price,
     inputs=inputs,
     outputs=outputs,
     examples=examples,
-    title=title,
+    title="California House Price Predictor",
     description=description,
     article=article,
-    theme=gr.themes.Soft(),
-).launch()
+    theme=gr.themes.Soft()
+)
+
+if __name__ == "__main__":
+    interface.launch()
