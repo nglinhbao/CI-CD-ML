@@ -171,22 +171,6 @@ Metrics are updated only when:
      5. Validate performance
      6. Generate evaluation report
 
-### Usage Examples
-
-```bash
-# Complete training and deployment workflow
-make all && make deploy
-
-# Development workflow
-make format && make lint && make test
-
-# Quick model update
-make train && make validate
-
-# Generate new report
-make eval
-```
-
 ### Environment Variables Required
 
 - `USER_NAME`: Git username for commits
