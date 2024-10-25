@@ -1,0 +1,1 @@
+Root Mean Squared Error = 0.47554656409475576, R-squared Score = 0.8274244618455642
