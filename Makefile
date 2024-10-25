@@ -40,7 +40,7 @@ hf-login:
 push-hub: 
 	huggingface-cli upload nglinhbao/Housing-Pricing ./App --repo-type=space --commit-message="Sync App files"
 	huggingface-cli upload nglinhbao/Housing-Pricing ./Model /Model --repo-type=space --commit-message="Sync Model"
-	huggingface-cli upload nglinhbao/Housing-Pricing ./Results /Metrics --repo-type=space --commit-message="Sync Results"
+	huggingface-cli upload nglinhbao/Housing-Pricing ./Results /Results --repo-type=space --commit-message="Sync Results"
 
 deploy: hf-login push-hub
 
